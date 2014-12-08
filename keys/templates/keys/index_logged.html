@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>KEYS - a disposable key for your device</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static "keys/css/bootstrap.min.css" %}" rel="stylesheet" type="text/css">
+
+    <!-- Fonts -->
+    <link href="{% static "keys/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet" type="text/css">
+	<link href="{% static "keys/css/nivo-lightbox.css" %}" rel="stylesheet" />
+	<link href="{% static "keys/css/nivo-lightbox-theme/default/default.css" %}" rel="stylesheet" type="text/css" />
+	<link href="{% static "keys/css/animate.css" %}" rel="stylesheet" />
+    <!-- Squad theme CSS -->
+    <link href="{% static "keys/css/style.css"  %}" rel="stylesheet">
+	<link href="{% static "keys/color/default.css" %}" rel="stylesheet">
+
+</head>
+
+<body data-spy="scroll">
+
+<div class="container">
+			<ul id="gn-menu" class="gn-menu-main">
+				<li><a href="/keys/exit">Logout {{ user_name }}</a></li>
+			</ul>
+	</div>
+
+	<!-- Section: intro -->
+    <section id="intro" class="intro">
+		<div class="slogan">
+			<h1>This is {{ appname }}</h1>
+			<p><b>get a disposable key for your device</b></p>
+		</div>	
+    </section>
+	<!-- /Section: intro -->
+
+	<!-- Section: about -->
+    <section id="about" class="home-section text-center bg-gray">
+
+		<div class="container">
+
+        
+        </div>		
+		</div>
+	</section>
+	<!-- /Section: about -->
+	
+
+	<!-- Section: contact -->
+    <section id="contact" class="home-section text-center">
+
+
+	</section>
+	<!-- /Section: contact -->
+
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 col-lg-12">
+		
+					<p>Copyright &copy; 2014 Ninestars - by <a href="http://bootstraptaste.com">Bootstraptaste</a></p>
+				</div>
+			</div>	
+		</div>
+	</footer>
+</body>
+
+</html>
