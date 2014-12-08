@@ -94,7 +94,6 @@ def user_login(request):
                 )
 	return HttpResponse(index_page.render(context))
 
-#TO DO implement registration of new user
 def user_register(request):
         user_name = request.POST['name']
         password = request.POST['pwd']
