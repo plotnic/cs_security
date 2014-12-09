@@ -21,6 +21,7 @@
     <!-- Squad theme CSS -->
     <link href="{% static "keys/css/style.css"  %}" rel="stylesheet">
 	<link href="{% static "keys/color/default.css" %}" rel="stylesheet">
+	<link href="{% static "keys/css/main.css" %}" rel="stylesheet">
 
 </head>
 
@@ -37,21 +38,20 @@
 		<div class="slogan">
 			<h1>This is {{ appname }}</h1>
 			<p><b>get a disposable key for your device</b></p>
-		</div>	
+		</div>
     </section>
 	<!-- /Section: intro -->
 
-	<!-- Section: about -->
-    <section id="about" class="home-section text-center bg-gray">
-
-		<div class="container">
-
-        
-        </div>		
+	<section id="key-nav" class="home-section text-center">
+		<div class="new-key">
+			<h2><a href="/keys/new">Create a one-time passcode</a></h2>
+			<p>Get a one-time passcode for an app you've already registered with us.</p>
+		</div>
+		<div class="register-app">
+			<h2><a href="/keys/register">Register an app</a></h2>
+			<p>Register an app to protect it with one-time passcodes.</p>
 		</div>
 	</section>
-	<!-- /Section: about -->
-	
 
 	<!-- Section: contact -->
     <section id="contact" class="home-section text-center">

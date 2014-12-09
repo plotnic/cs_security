@@ -1,0 +1,15 @@
+.key-nav {
+	background-color: white;
+	position: center;
+}
+
+.new-key, .register-app {
+	position: center;
+	background-color: black;
+	text-align: center;
+	opacity: 0.5;
+}
+
+.new-key > p, .register-app > p {
+	color: white;
+}
