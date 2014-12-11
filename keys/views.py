@@ -8,10 +8,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from keys.models import Key
-import keygen, os
+import keygen
+import os
 from PIL import Image
 
-appname = '<no name app>'
+appname = 'one-time passcode'
 index_page = loader.get_template('keys/index.html')
 main_page =  loader.get_template('keys/index_logged.html')
 get_page = loader.get_template('keys/get.html')
@@ -19,6 +20,7 @@ register_new_page = loader.get_template('keys/register_form.html')
 qr_page = loader.get_template('keys/qr_page.html')
 code_page = loader.get_template('keys/get_new_code.html')
 forbidden_page = loader.get_template('keys/forbidden.html')
+wrong_page = loader.get_template('keys/wrong_pw.html')
 
 # Create your views here.
 def details(request):
@@ -58,6 +60,9 @@ def get_codes(request):
 		context = RequestContext(request, {'user_name': user_name,
 			'rows': rows})
 		return HttpResponse(get_page.render(context))
+	if request.method == "POST":
+		app = request.POST['app']
+		return generate_new_code(request, app)
 
 @login_required
 def register_new(request):
@@ -66,16 +71,20 @@ def register_new(request):
 		context = RequestContext(request, {'user_name': user_name})
 		return HttpResponse(register_new_page.render(context))
 	if request.method == "POST":
-		key = keygen.generate_key()
-		print request.POST
-		app = "Unnamed"
-		if request.POST['app']:
-			app = request.POST['app']
-		new = Key.objects.create(user=user_name, key=key, app=app)
-		url = keygen.make_qr(key)
-		context = RequestContext(request, {'user_name': user_name,
-			'url': url, 'app': app})
-		return HttpResponse(qr_page.render(context))
+		passcode = request.POST["pass"]
+		if request.user.check_password(passcode):
+			key = keygen.generate_key()
+			if request.POST['app']:
+				app = request.POST['app']
+			new = Key.objects.create(user=user_name, key=keygen.encrypt_code(passcode,key), app=app)
+			url = keygen.make_qr(key)
+			context = RequestContext(request, {'user_name': user_name,
+				'url': url, 'app': app})
+			return HttpResponse(qr_page.render(context))
+		else:
+			context = RequestContext(request, {'user_name': user_name,
+				'link': 'register'})
+			return HttpResponse(wrong_page.render(context))
 
 @login_required
 def get_img(request, imgurl):
@@ -89,16 +98,22 @@ def get_img(request, imgurl):
 @login_required
 def generate_new_code(request, ids):
 	user_name = request.user.username
+	passcode = request.POST["pass"]
+	auth = request.user.check_password(passcode)
 	try:
 		row = Key.objects.get(id=ids)
 	except:
 		context = RequestContext(request, {'user_name': user_name})
 		return HttpResponse(forbidden_page.render(context))
-	if(row.user == user_name):
-		code = keygen.generate_code(row.key)
+	if row.user == user_name and auth:
+		code = keygen.generate_code(passcode, row.key)
 		context = RequestContext(request, {'user_name': user_name,
 			'app': row.app, 'code': code})
 		return HttpResponse(code_page.render(context))
+	elif not auth:
+		context = RequestContext(request, {'user_name': user_name, 
+			'link': 'new'})
+		return HttpResponse(wrong_page.render(context))
 	else:
 		context = RequestContext(request, {'user_name': user_name})
 		return HttpResponse(forbidden_page.render(context))

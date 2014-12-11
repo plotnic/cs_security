@@ -35,25 +35,8 @@
 
 	<section id="key-list" class="home-section text-center">
 		<div class="key-list container">
-		{% if rows %}
-			Select an application:
-			<form method="POST" action="/keys/new">
-			{% csrf_token %}
-			<select name="app">
-		{% endif %}
-		{% for row in rows %}
-			 <option value="{{ row.id }}">{{ row.app }}</option>
-		{% endfor %}
-		{% if rows %}
-			</select>
-			<p>For security reasons, please type in your password.</p>
-			<input type="password"/ name="pass">
-			<input type="submit" value="Get my code!"/><br/>
-			</form>
-		{% else %}
-			<p>You don't have any registered apps.</p>
-		{% endif %}
-		<p>Go <a href="/keys/register">here</a> to add an application.</p>
+			<p>The password typed was incorrect.</p>
+		<p>Go <a href="/keys/{{ link }}">here</a> to go back.</p>
 		</div>
 	</section>
 

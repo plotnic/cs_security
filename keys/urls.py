@@ -10,5 +10,4 @@ urlpatterns = [
 	url(r'^new$', views.get_codes, name='get_codes'),	
 	url(r'^register$', views.register_new, name='register_new'),
 	url(r'^img/([A-Za-z0-9]+)$', views.get_img, name='get_img'),
-	url(r'^([0-9]+)$', views.generate_new_code, name='generate_new_code'),
 ]

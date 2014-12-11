@@ -39,6 +39,8 @@
 			<form action="/keys/register" name="register" method="POST">
 			{% csrf_token %}
 			App Name: <input type="text" size="15" name="app"/>
+			<p>For security reasons, please type in your password.</p>
+			<input type="password"/ name="pass">
 			<input type="submit" value="Submit"/>
 			</form>
 
