@@ -6,6 +6,10 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+
+import json
+import ast
 
 from keys.models import Key
 import keygen
@@ -85,6 +89,27 @@ def register_new(request):
 			context = RequestContext(request, {'user_name': user_name,
 				'link': 'register'})
 			return HttpResponse(wrong_page.render(context))
+
+@csrf_exempt
+def get_key(request):
+	print 'ran through here'
+	print request.POST.keys()
+	requestData = ast.literal_eval(request.POST.keys()[0])
+	user_name = requestData["username"]
+	password = requestData["password"]
+	user = authenticate(username=user_name, password=password)
+	if user:
+		data = {}
+		key = keygen.generate_key()
+		print key
+		app = requestData["app"]
+		new = Key.objects.create(user=user_name, key=keygen.encrypt_code(password,key), app=app)
+		data['key'] = key
+		return HttpResponse(json.dumps(data), content_type="application/json")
+	else:
+		data = {}
+		data[error] = 'Incorrect authentication'
+		return HttpResponse(json.dumps(data), content_type="application/json")
 
 @login_required
 def get_img(request, imgurl):
